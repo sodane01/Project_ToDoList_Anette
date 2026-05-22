@@ -1,5 +1,6 @@
 ﻿List<TodoTask> tasks = new();
 
+TaskManager manager = new();
 TaskDisplay display = new();
 
 bool running = true;
@@ -14,7 +15,14 @@ while (running)
     switch (choice)
     {
         case "1":
-            // Add task later
+            display.DisplayTasksWithMenu(manager.GetTasks());
+
+            switch (choice)
+            {
+                case "1":
+                    manager.AddTask();
+                    break;
+            }
             break;
 
         case "6":
