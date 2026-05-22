@@ -52,4 +52,33 @@
             input = Console.ReadLine()?.Trim() ?? "";
         }
     }
+
+    public int ValidateExistingId(
+    string input,
+    List<TodoTask> tasks)
+    {
+        while (true)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                Console.WriteLine("ID cannot be empty.");
+            }
+            else if (!int.TryParse(input, out int id))
+            {
+                Console.WriteLine("Invalid ID format.");
+            }
+            else if (!tasks.Any(t => t.Id == id))
+            {
+                Console.WriteLine("No task found with that ID.");
+            }
+            else
+            {
+                return id;
+            }
+
+            Console.Write("Enter ID again: ");
+
+            input = Console.ReadLine()?.Trim() ?? "";
+        }
+    }
 }

@@ -1,70 +1,113 @@
-﻿public class TaskManager
+﻿using System.Linq;
+public class TaskManager
 {
-    private readonly TaskValidator validate = new();
-
-    private List<TodoTask> tasks = new();
-
+    private readonly TaskValidator validator = new();
+    private readonly List<TodoTask> tasks = new();
     private int nextId = 1;
-
 
     public List<TodoTask> GetTasks()
     {
         return tasks;
     }
 
-
     public void AddTask()
     {
-        string title = AskForTitle();
+        Console.Write("Enter title: ");
+        string title = validator.ValidateTitle(Console.ReadLine()?.Trim() ?? "");
 
-        string project = AskForProject();
+        Console.Write("Enter project: ");
+        string project = validator.ValidateProject(Console.ReadLine()?.Trim() ?? "");
 
-        DateTime dueDate = AskForDueDate();
+        Console.Write("Enter due date (yyyy-MM-dd): ");
+        DateTime dueDate = validator.ValidateDueDate(Console.ReadLine()?.Trim() ?? "");
 
-        TodoTask newTask = new TodoTask(
-            nextId,
-            title,
-            project,
-            dueDate,
-            false);
+        TodoTask task = new TodoTask(nextId, title, project, dueDate, false);
 
-        tasks.Add(newTask);
-
+        tasks.Add(task);
         nextId++;
 
         Console.WriteLine("Task added successfully!");
+        Console.ReadKey();
     }
-
-
-    private string AskForTitle()
+    public void EditTask()
     {
-        Console.Write("Enter title: ");
+        if (tasks.Count == 0)
+        {
+            Console.WriteLine("No tasks available.");
+            return;
+        }
+
+        Console.Write("Enter task ID to edit: ");
 
         string input =
             Console.ReadLine()?.Trim() ?? "";
 
-        return validate.ValidateTitle(input);
-    }
+        int id =
+            validator.ValidateExistingId(input, tasks);
+
+        TodoTask? task =
+            tasks.FirstOrDefault(t => t.Id == id);
+
+        if (task == null)
+        {
+            Console.WriteLine("Task not found.");
+            return;
+        }
 
 
-    private string AskForProject()
-    {
-        Console.Write("Enter project: ");
+        // TITLE
+        Console.Write($"New title ({task.Title}): ");
 
-        string input =
-            Console.ReadLine()?.Trim() ?? "";
+        input = Console.ReadLine()?.Trim() ?? "";
 
-        return validate.ValidateProject(input);
-    }
+        if (!string.IsNullOrWhiteSpace(input))
+        {
+            task.Title =
+                validator.ValidateTitle(input);
+        }
 
 
-    private DateTime AskForDueDate()
-    {
-        Console.Write("Enter due date (YYYY-MM-DD): ");
+        // PROJECT
+        Console.Write($"New project ({task.Project}): ");
 
-        string input =
-            Console.ReadLine()?.Trim() ?? "";
+        input = Console.ReadLine()?.Trim() ?? "";
 
-        return validate.ValidateDueDate(input);
+        if (!string.IsNullOrWhiteSpace(input))
+        {
+            task.Project =
+                validator.ValidateProject(input);
+        }
+
+
+        // DUE DATE
+        Console.Write(
+            $"New due date ({task.DueDate:yyyy-MM-dd}): ");
+
+        input = Console.ReadLine()?.Trim() ?? "";
+
+        if (!string.IsNullOrWhiteSpace(input))
+        {
+            task.DueDate =
+                validator.ValidateDueDate(input);
+        }
+
+
+        // STATUS
+        Console.Write(
+            $"Is task done? ({(task.IsDone ? "y" : "n")}): ");
+
+        input = Console.ReadLine()?.Trim() ?? "";
+
+        if (!string.IsNullOrWhiteSpace(input))
+        {
+            task.IsDone =
+                input.Equals("y",
+                StringComparison.OrdinalIgnoreCase);
+        }
+
+        Console.WriteLine();
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("Task updated successfully!");
+        Console.ResetColor();
     }
 }

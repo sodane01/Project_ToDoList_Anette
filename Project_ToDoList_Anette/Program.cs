@@ -1,13 +1,13 @@
 ﻿List<TodoTask> tasks = new();
 
-TaskManager manager = new();
 TaskDisplay display = new();
+TaskManager taskManager = new();
 
 bool running = true;
 
 while (running)
 {
-    display.DisplayTasksWithMenu(tasks);
+    display.DisplayTasksWithMenu(taskManager.GetTasks());
 
     Console.Write("Choose option: ");
     string choice = Console.ReadLine()?.Trim() ?? "";
@@ -15,14 +15,11 @@ while (running)
     switch (choice)
     {
         case "1":
-            display.DisplayTasksWithMenu(manager.GetTasks());
+            taskManager.AddTask();
+            break;
 
-            switch (choice)
-            {
-                case "1":
-                    manager.AddTask();
-                    break;
-            }
+        case "2":
+            taskManager.EditTask();
             break;
 
         case "6":
@@ -35,3 +32,4 @@ while (running)
             break;
     }
 }
+
