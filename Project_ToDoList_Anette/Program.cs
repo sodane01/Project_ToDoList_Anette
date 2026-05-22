@@ -22,7 +22,23 @@ while (running)
             taskManager.EditTask();
             break;
 
+        case "3": 
+            //taskManager.SortTasks();
+            break;
+
+        case "4":
+            //taskManager.SearchTasks();
+            break;
+
+        case "5":
+            taskManager.RemoveTask();
+            break;
+
         case "6":
+            //taskManager.ExportTasksToFile();
+            break;
+
+        case "7":
             running = false;
             break;
 

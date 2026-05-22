@@ -110,4 +110,40 @@ public class TaskManager
         Console.WriteLine("Task updated successfully!");
         Console.ResetColor();
     }
+    public void RemoveTask()
+    {
+        if (tasks.Count == 0)
+        {
+            Console.WriteLine("No tasks available.");
+            return;
+        }
+
+        Console.Write("Enter task ID to remove: ");
+        string input = Console.ReadLine()?.Trim() ?? "";
+
+        int id = validator.ValidateExistingId(input, tasks);
+
+        TodoTask? task = tasks.FirstOrDefault(t => t.Id == id);
+
+        if (task == null)
+        {
+            Console.WriteLine("Task not found.");
+            return;
+        }
+
+        Console.WriteLine($"Are you sure you want to remove '{task.Title}'? y/n");
+        string confirm = Console.ReadLine()?.Trim() ?? "";
+
+        if (!confirm.Equals("y", StringComparison.OrdinalIgnoreCase))
+        {
+            Console.WriteLine("Remove cancelled.");
+            return;
+        }
+
+        tasks.Remove(task);
+
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.WriteLine("Task removed successfully!");
+        Console.ResetColor();
+    }
 }

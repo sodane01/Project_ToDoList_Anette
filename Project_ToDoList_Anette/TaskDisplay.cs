@@ -32,7 +32,7 @@
         Console.WriteLine("----------------------------------------------------------------------------------------------------");
         Console.WriteLine();
         Console.ForegroundColor = ConsoleColor.Yellow;
-        Console.WriteLine("1. Add task    2. Edit task    3. Sort tasks    4. Search tasks    5. Export file    6. Exit");
+        Console.WriteLine("1. Add task    2. Edit task    3. Sort tasks    4. Search tasks     5. Remove task    6. Export file    7. Exit");
         Console.ResetColor();
         Console.WriteLine();
     }
