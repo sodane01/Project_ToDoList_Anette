@@ -146,4 +146,15 @@ public class TaskManager
         Console.WriteLine("Task removed successfully!");
         Console.ResetColor();
     }
+    public void SetTasks(List<TodoTask> loadedTasks)
+    {
+        tasks.Clear();
+
+        tasks.AddRange(loadedTasks);
+
+        if (tasks.Count > 0)
+        {
+            nextId = tasks.Max(t => t.Id) + 1;
+        }
+    }
 }
