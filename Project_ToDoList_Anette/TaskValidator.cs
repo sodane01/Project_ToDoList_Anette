@@ -81,4 +81,39 @@
             input = Console.ReadLine()?.Trim() ?? "";
         }
     }
+    public string ValidateFileName(string input)
+    {
+        while (true)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                return "tasks.csv";
+            }
+
+            char[] invalidChars =
+                Path.GetInvalidFileNameChars();
+
+            if (input.Any(c => invalidChars.Contains(c)))
+            {
+                Console.WriteLine(
+                    "File name contains invalid characters.");
+            }
+            else if (!input.EndsWith(
+                ".csv",
+                StringComparison.OrdinalIgnoreCase))
+            {
+                Console.WriteLine(
+                    "File must end with .csv");
+            }
+            else
+            {
+                return input;
+            }
+
+            Console.Write("Enter file name again: ");
+
+            input =
+                Console.ReadLine()?.Trim() ?? "";
+        }
+    }
 }
