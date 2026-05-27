@@ -65,7 +65,7 @@ The application follows separation of concerns principles and is divided into de
 # Activity Diagram
 
 
-![Activity Diagram](C:\Users\user\Desktop\Project_ToDoList/activity_diagram.png)
+![Activity Diagram](./images/activity_diagram.png)
 
 ---
 
