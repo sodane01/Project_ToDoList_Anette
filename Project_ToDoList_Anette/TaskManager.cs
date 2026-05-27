@@ -27,6 +27,8 @@ public class TaskManager
         nextId++;
 
         Console.WriteLine("Task added successfully!");
+        Console.WriteLine("Click enter to continue...");
+
         Console.ReadKey();
     }
     public void EditTask()
@@ -94,7 +96,7 @@ public class TaskManager
 
         // STATUS
         Console.Write(
-            $"Is task done? ({(task.IsDone ? "y" : "n")}): ");
+            $"Is task done? y/n ({(task.IsDone ? "y" : "n")}): ");
 
         input = Console.ReadLine()?.Trim() ?? "";
 
