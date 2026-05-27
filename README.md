@@ -58,14 +58,14 @@ The application follows separation of concerns principles and is divided into de
 
 # UML Diagram
 
-![UML Diagram](./images/uml_diagram.png)
+![UML Diagram](https://github.com/sodane01/Project_ToDoList_Anette/raw/master/images/uml_diagram.png)
 
 ---
 
 # Activity Diagram
 
 
-![Activity Diagram](./images/activity_diagram.png)
+![Activity Diagram](https://github.com/sodane01/Project_ToDoList_Anette/raw/master/images/activity_diagram.png)
 
 ---
 
