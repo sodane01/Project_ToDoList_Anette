@@ -1,10 +1,22 @@
-﻿//public class CsvExporter : ITaskExporter
+﻿
+//public class CsvExporter : ITaskExporter
 //{
-//    public void Export(List<TodoTask> tasks, string filePath)
+//    public void Export(List<TodoTask> tasks)
 //    {
-//        using StreamWriter writer = new StreamWriter(filePath);
+//        Console.Write(
+//            "Enter file name (example: tasks.csv): ");
 
-//        writer.WriteLine("Id,Title,Project,DueDate,IsDone");
+//        string input =
+//            Console.ReadLine()?.Trim() ?? "";
+
+//        string filePath =
+//            ValidateFileName(input);
+
+//        using StreamWriter writer =
+//            new StreamWriter(filePath);
+
+//        writer.WriteLine(
+//            "Id,Title,Project,DueDate,IsDone");
 
 //        foreach (var task in tasks)
 //        {
@@ -16,31 +28,87 @@
 //                $"{task.IsDone}");
 //        }
 
-//        Console.ForegroundColor = ConsoleColor.Green;
-//        Console.WriteLine("Tasks exported successfully!");
+//        Console.ForegroundColor =
+//            ConsoleColor.Green;
+
+//        Console.WriteLine(
+//            "Tasks exported successfully!");
+
 //        Console.ResetColor();
 
-//        Console.WriteLine($"File saved to:");
-//        Console.WriteLine(Path.GetFullPath(filePath));
-
-//        Console.WriteLine();
-//        Console.Write("Press Enter to return to menu...");
-//        Console.ReadLine();
+//        Console.WriteLine("File saved to:");
+//        Console.WriteLine(
+//            Path.GetFullPath(filePath));
 //    }
+
+
+//    private string ValidateFileName(string input)
+//    {
+//        while (true)
+//        {
+//            if (string.IsNullOrWhiteSpace(input))
+//            {
+//                return "tasks.csv";
+//            }
+
+//            char[] invalidChars =
+//                Path.GetInvalidFileNameChars();
+
+//            if (input.Any(
+//                c => invalidChars.Contains(c)))
+//            {
+//                Console.WriteLine(
+//                    "File name contains invalid characters.");
+//            }
+//            else if (!input.EndsWith(
+//                ".csv",
+//                StringComparison.OrdinalIgnoreCase))
+//            {
+//                Console.WriteLine(
+//                    "File must end with .csv");
+//            }
+//            else
+//            {
+//                return input;
+//            }
+
+//            Console.Write(
+//                "Enter file name again: ");
+
+//            input =
+//                Console.ReadLine()?.Trim() ?? "";
+//        }
+//    }
+
 
 //    private string EscapeCsv(string value)
 //    {
-//        if (value.Contains(",") || value.Contains("\""))
+//        if (value.Contains(",") ||
+//            value.Contains("\""))
 //        {
-//            value = value.Replace("\"", "\"\"");
+//            value =
+//                value.Replace("\"", "\"\"");
+
 //            return $"\"{value}\"";
 //        }
 
 //        return value;
 //    }
 //}
+//public interface ITaskExporter
+//{
+//    void Export(List<TodoTask> tasks);
+//}
+// Interface used for exporting tasks to different file formats
+public interface ITaskExporter
+{
+    void Export(List<TodoTask> tasks);
+}
+
+
 public class CsvExporter : ITaskExporter
 {
+    // Exports tasks to a CSV file
     public void Export(List<TodoTask> tasks)
     {
         Console.Write(
@@ -49,17 +117,20 @@ public class CsvExporter : ITaskExporter
         string input =
             Console.ReadLine()?.Trim() ?? "";
 
+        // Validate the entered file name before export
         string filePath =
             ValidateFileName(input);
 
         using StreamWriter writer =
             new StreamWriter(filePath);
 
+        // Write CSV header row
         writer.WriteLine(
             "Id,Title,Project,DueDate,IsDone");
 
         foreach (var task in tasks)
         {
+            // Write each task as a formatted CSV row
             writer.WriteLine(
                 $"{task.Id}," +
                 $"{EscapeCsv(task.Title)}," +
@@ -76,30 +147,38 @@ public class CsvExporter : ITaskExporter
 
         Console.ResetColor();
 
+        // Display the full file location to the user
         Console.WriteLine("File saved to:");
+
         Console.WriteLine(
             Path.GetFullPath(filePath));
     }
 
 
+    // Validates that the entered file name is valid and ends with .csv
     private string ValidateFileName(string input)
     {
         while (true)
         {
+            // Use a default file name if the input is empty
             if (string.IsNullOrWhiteSpace(input))
             {
                 return "tasks.csv";
             }
 
+            // Get invalid Windows file name characters
             char[] invalidChars =
                 Path.GetInvalidFileNameChars();
 
+            // Check for invalid characters
             if (input.Any(
                 c => invalidChars.Contains(c)))
             {
                 Console.WriteLine(
                     "File name contains invalid characters.");
             }
+
+            // Ensure the file extension is .csv
             else if (!input.EndsWith(
                 ".csv",
                 StringComparison.OrdinalIgnoreCase))
@@ -121,11 +200,13 @@ public class CsvExporter : ITaskExporter
     }
 
 
+    // Escapes commas and quotation marks to prevent CSV formatting issues
     private string EscapeCsv(string value)
     {
         if (value.Contains(",") ||
             value.Contains("\""))
         {
+            // Double quotation marks must be escaped in CSV format
             value =
                 value.Replace("\"", "\"\"");
 
@@ -135,11 +216,3 @@ public class CsvExporter : ITaskExporter
         return value;
     }
 }
-public interface ITaskExporter
-{
-    void Export(List<TodoTask> tasks);
-}
-//public interface ITaskExporter
-//{
-//    void Export(List<TodoTask> tasks, string filePath);
-//}
